@@ -1,8 +1,9 @@
 "use client"
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
-export const Context  = () => {
-
+export const Context = () => {
+    const router = useRouter();
 
     return (
         <>
@@ -25,11 +26,17 @@ export const Context  = () => {
               <button className="bg-blue-600 text-white py-3 px-8 rounded-md hover:bg-blue-700 transition-all duration-300 text-lg">
                 Learn More
               </button>
-              <button className="bg-green-600 text-white py-3 px-8 rounded-md hover:bg-green-700 transition-all duration-300 text-lg">
+              <button 
+                onClick={() => router.push('/sign-up')} 
+                className="bg-green-600 text-white py-3 px-8 rounded-md hover:bg-green-700 transition-all duration-300 text-lg"
+              >
                 Create Account
               </button>
-              <button className="bg-orange-600 text-white py-3 px-8 rounded-md hover:bg-orange-700 transition-all duration-300 text-lg">
-                Get Started
+              <button 
+                onClick={() => router.push('/login')}
+                className="bg-orange-600 text-white py-3 px-8 rounded-md hover:bg-orange-700 transition-all duration-300 text-lg"
+              >
+                Login
               </button>
             </div>
           </div>
