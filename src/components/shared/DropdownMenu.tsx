@@ -11,8 +11,7 @@ import { useAuth } from "@/context/AuthContext";
 export const DropdownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-
-  const {user, setUser} = useAuth();
+  const { user, setUser } = useAuth();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -23,7 +22,8 @@ export const DropdownMenu = () => {
     if (error) {
       console.error("Logout error:", error.message);
     } else {
-      router.push("/login"); // Redirect to login page after logout
+      setUser(null); // Clear the user state
+      router.push("/home");
     }
   };
 
@@ -43,31 +43,34 @@ export const DropdownMenu = () => {
             transition={{duration:0.3,ease:"easeInOut"}}
             className="absolute right-0 mt-64 w-48 bg-white border rounded-lg shadow-lg transition-all duration-300 ease-in-out"
           >
-            {user.username && (<ul className="py-2">
-              <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                User Profile
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                Current Trips
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                Trip History
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-              onClick={handleLogout}>
-                Log Out
-              </li>
-            </ul>)}
-            {!user.username && (<ul className="py-2">
-              <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-              onClick={() => router.push("/login")}>
-                Login
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-              onClick={() => router.push("/sign-up")}>
-                Sign Up
-              </li>
-            </ul>)}
+            {user ? (
+              <ul className="py-2">
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                  User Profile
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                  Current Trips
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                  Trip History
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                onClick={handleLogout}>
+                  Log Out
+                </li>
+              </ul>
+            ) : (
+              <ul className="py-2">
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                onClick={() => router.push("/login")}>
+                  Login
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                onClick={() => router.push("/sign-up")}>
+                  Sign Up
+                </li>
+              </ul>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

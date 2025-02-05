@@ -1,7 +1,8 @@
-"use client"; // Ensure this is a client component
+"use client"; // This tells Next.js this component runs on client-side, not server-side
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { supabase } from "@/lib/supabase"; 
+
 interface AuthContextType {
   user: any;
   setUser: React.Dispatch<React.SetStateAction<any>>;
