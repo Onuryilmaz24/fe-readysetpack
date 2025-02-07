@@ -1,4 +1,4 @@
-import  {Context}  from "@/components/home/Context";
+import  {Context}  from "@/components/home/HomePageContext";
 import { Header } from "@/components/shared/Header";
 import React from "react";
 
