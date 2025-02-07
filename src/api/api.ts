@@ -1,35 +1,71 @@
-import axios from "axios";  
+import axios from "axios";
 import { supabase } from "@/lib/supabase";
+import SignUpResponse from "@/types/index.d";
 
-export const signUpUser = async (email: string, password: string, username: string, name: string) => {
-  // Step 1: Sign up the user
+const backendApi = axios.create({
+  baseURL: "https://readysetpack.onrender.com/api",
+});
+
+const cityApiNinjas = axios.create({
+  baseURL: "https://api.api-ninjas.com/v1",
+  headers: { 
+    'X-Api-Key': process.env.NEXT_PUBLIC_NINJA_API_KEY
+  }
+});
+
+export const signUpUser = async (
+  email: string,
+  password: string,
+  username: string,
+  name: string
+) => {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
   });
 
   if (error) {
-    console.error("Error signing up:", error.message);
-    return { success: false, error: error.message };
+    const response: SignUpResponse = {
+      success: false,
+      error: error.message,
+    };
+    return response;
   }
-
   const userId = data.user?.id;
   if (!userId) {
-    console.error("User ID not found after signup.");
-    return { success: false, error: "User ID not found." };
+    const response: SignUpResponse = {
+      success: false,
+      error: "User ID not found.",
+    };
+    return response;
   }
-
-  // Step 2: Send user info to your backend (Render API)
   try {
-    const response = await axios.post("https://be-readysetpack.onrender.com/api/users", {
-      user_id: userId,
-      username: username,
-      name: name,
-    });
+    const response = await backendApi.post(
+      "/users",
+      {
+        user_id: userId,
+        username: username,
+        name: name,
+      }
+    );
 
-    console.log("User successfully inserted into database via backend!", response.data);
     return { success: true, userId };
-  } catch (backendError) {
-   
+  } catch (backendError) {}
+};
+
+export const getCityInfo = async (city: string) => {
+  try {
+    const response = await cityApiNinjas.get('/city', {
+      params: {
+        name: city,
+        limit: 5
+      }
+    });
+    console.log('API Response:', response.data); // Debug log
+    return response.data;
+  } catch (error) {
+    console.error('API Error:', error);
+    return [];
   }
 };
+

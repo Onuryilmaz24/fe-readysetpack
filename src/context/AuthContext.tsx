@@ -1,4 +1,4 @@
-"use client"; // This tells Next.js this component runs on client-side, not server-side
+"use client"; 
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { supabase } from "@/lib/supabase"; 
