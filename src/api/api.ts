@@ -58,10 +58,21 @@ export const getCityInfo = async (city: string) => {
     const response = await cityApiNinjas.get('/city', {
       params: {
         name: city,
-        limit: 5
       }
     });
-    console.log('API Response:', response.data); // Debug log
+    return response.data;
+  } catch (error) {
+    console.error('API Error:', error);
+    return [];
+  }
+};
+export const getCountryInfo = async (country: string) => {
+  try {
+    const response = await cityApiNinjas.get('/country', {
+      params: {
+        name: country,
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('API Error:', error);

@@ -41,12 +41,15 @@ export const DropdownMenu = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{duration:0.3,ease:"easeInOut"}}
-            className="absolute right-0 mt-64 w-48 bg-white border rounded-lg shadow-lg transition-all duration-300 ease-in-out"
+            className="absolute right-0 mt-72 w-48 bg-white border rounded-lg shadow-lg transition-all duration-300 ease-in-out"
           >
             {user ? (
               <ul className="py-2">
                 <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
                   User Profile
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                  Create New Trip
                 </li>
                 <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
                   Current Trips
