@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
 import { getCityInfo } from "@/api/api";
-export const Context = () => {
+export const Content = () => {
   const router = useRouter();
 
   const { user, setUser } = useAuth();
@@ -13,10 +13,11 @@ export const Context = () => {
   const [cities, setCities] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [departureDate, setDepartureDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
 
-
-  const searchCities = async (search:string) =>{
-    if (search.length < 2) return;
+  const searchCities = async (search: string) => {
+    if (search.length < 3) return;
     setIsLoading(true);
     try {
       const response = await getCityInfo(search);
@@ -31,6 +32,11 @@ export const Context = () => {
   const handleCitySelect = (city: any) => {
     setSearchTerm(`${city.name}, ${city.country}`);
     setShowDropdown(false);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push("/new-trip");
   };
 
   return (
@@ -61,14 +67,14 @@ export const Context = () => {
               <h1 className="text-4xl font-bold text-gray-800 mb-4">
                 Let's get started!
               </h1>
-              <form className="relative w-full">
+              <form className="relative w-full" onSubmit={handleSubmit} id="pre-form" name="pre-form">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Your Destination 
+                  Your Destination
                 </label>
                 <div className="relative">
-                  <input 
-                    type="text" 
-                    value={searchTerm} 
+                  <input
+                    type="text"
+                    value={searchTerm}
                     onChange={(e) => {
                       setSearchTerm(e.target.value);
                       searchCities(e.target.value);
@@ -82,7 +88,6 @@ export const Context = () => {
                     </div>
                   )}
                 </div>
-                
                 {showDropdown && cities.length > 0 && (
                   <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
                     {cities.map((city: any) => (
@@ -92,11 +97,43 @@ export const Context = () => {
                         className="p-3 hover:bg-gray-100 cursor-pointer flex flex-col"
                       >
                         <span className="font-medium">{city.name}</span>
-                        <span className="text-sm text-gray-500">{city.country}</span>
+                        <span className="text-sm text-gray-500">
+                          {city.country}
+                        </span>
                       </div>
                     ))}
                   </div>
                 )}
+                <div className="lg:flex gap-5 mt-4">
+                  <div className="mx-auto">
+                    <p className="">Departure Date</p>
+                    <input
+                      type="date"
+                      id="departureDate"
+                      className="border-2 rounded-lg p-2 mt-2"
+                      onChange={(e) => {
+                        setDepartureDate(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="mx-auto">
+                    <p>Return Date</p>
+                    <input
+                      type="date"
+                      id="returnDate"
+                      className="border-2 rounded-lg p-2 mt-2"
+                      onChange={(e) => {
+                        setReturnDate(e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-center mt-10">
+                  <button className="border-2 bg-gray-800 w-1/2 mt-10 h-12 rounded-full text-white font-bold text-xl shadow-md transition-all duration-700 ease-in-out transform hover:shadow-2xl hover:scale-105"
+                  type="submit">
+                    Start Planning
+                  </button>
+                </div>
               </form>
             </div>
           ) : (
