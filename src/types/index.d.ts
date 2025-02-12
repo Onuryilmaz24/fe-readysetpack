@@ -1,6 +1,9 @@
-interface SignUpResponse {
+export interface SignUpResponse {
   success: boolean;
   error?: string;
 };
-
-export default SignUpResponse;  
+export interface PostTripResponse {
+  success: boolean;
+  responese?:any;
+  error?: string;
+};

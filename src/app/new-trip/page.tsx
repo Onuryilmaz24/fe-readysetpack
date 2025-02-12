@@ -2,12 +2,14 @@
 import { Header } from "@/components/shared/Header";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useState ,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { CitySearchInput } from "@/components/input-form/CitySearchInput";
 import { DatePicker } from "@/components/input-form/DatePicker";
 import { CountrySearchInput } from "@/components/input-form/CountrySearchInput";
 import { BudgetInput } from "@/components/input-form/BudgetInput";
 import { PeopleCount } from "@/components/input-form/PeopleCount";
+import { postTrip } from "@/api/api";
+import { PostTripResponse } from "@/types";
 
 export default function NewTrip() {
   const { user } = useAuth();
@@ -20,55 +22,49 @@ export default function NewTrip() {
   const [budget, setBudget] = useState("");
   const [currency, setCurrency] = useState("");
   const [peopleCount, setPeopleCount] = useState("");
-  const [inputBody,setInputBody]= useState({
-    user_id:"",
-    destination:{
-        city:"",
-        country:"",
-        currency:""
+  const [inputBody, setInputBody] = useState({
+    destination: {
+      city: "",
+      country: "",
+      currency: "",
     },
-    start_date:"",
-    end_date:"",
-    passport_issued_country:"",
-    visa_type:"",
-    budget:{
-        current_amount:0,
-        current_currency:"",
-        destination_currency:"",
-        destination_amount:0
+    start_date: "",
+    end_date: "",
+    passport_issued_country: "",
+    visa_type: "",
+    budget: {
+      current_amount: 0,
+      current_currency: "",
+      destination_currency: "",
+      destination_amount: 0,
     },
-    people_count:0,
-    cityInfo:"",
-    landmarks:{
-        best_places_to_visit:[],
-        img_url_of_landmarks:[]
+    people_count: 0,
+    cityInfo: "",
+    landmarks: {
+      best_places_to_visit: [],
+      img_url_of_landmarks: [],
     },
-    events:[],
-  /*   type Events = {
-        name: string;
-        venue: string;
-        date: string;
-        img: string;
-        price: number;
-    }; */
+    events: [],
 
-    daily_expected_cost: 0
+    daily_expected_cost: 100,
+  });
 
-  })
-
-  const handleSubmit = async (e:React.FormEvent)=>{
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setInputBody((prevInput:any)=>{
-        return {...prevInput,user_id:user.id}
-    })
+    const result = (await postTrip(inputBody, user.id)) as PostTripResponse;
+    setLoading(false);
+    if (result.success) {
+      router.push("/home");
+    } else {
+      console.log("post failed:", result.error);
+    }
+  };
 
-  }
-
-/*   useEffect(() => {
+  /*   useEffect(() => {
     console.log(inputBody); 
-  }, [inputBody]);
- */
+  }, [inputBody]); */
+
   return (
     <>
       <Header />
@@ -78,11 +74,17 @@ export default function NewTrip() {
             <h1 className="text-4xl font-bold text-gray-800 mb-4">
               Plan Your Trip
             </h1>
-            <form className="relative w-full" id="trip-form" name="trip-form" onSubmit={handleSubmit}>
+            <form
+              className="relative w-full"
+              id="trip-form"
+              name="trip-form"
+              onSubmit={handleSubmit}
+            >
               <CitySearchInput
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
                 setInputBody={setInputBody}
+                inputBody={inputBody}
               />
               <DatePicker
                 departureDate={departureDate}
@@ -103,15 +105,18 @@ export default function NewTrip() {
                 setCurrency={setCurrency}
                 setInputBody={setInputBody}
               />
-              <PeopleCount peopleCount={peopleCount} setPeopleCount={setPeopleCount}
-              setInputBody={setInputBody} />
-              <button 
-            type="submit" 
-            disabled={loading}
-            className="w-full bg-blue-500 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300 text-base sm:text-lg font-medium"
-          >
-            {loading ? "Loading..." : "Create New Trip"}
-          </button>
+              <PeopleCount
+                peopleCount={peopleCount}
+                setPeopleCount={setPeopleCount}
+                setInputBody={setInputBody}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-blue-500 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300 text-base sm:text-lg font-medium"
+              >
+                {loading ? "Loading..." : "Create New Trip"}
+              </button>
             </form>
           </div>
         </div>

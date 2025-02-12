@@ -40,15 +40,22 @@ export const DropdownMenu = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            transition={{duration:0.3,ease:"easeInOut"}}
-            className="absolute right-0 mt-72 w-48 bg-white border rounded-lg shadow-lg transition-all duration-300 ease-in-out"
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={`absolute right-0 w-48 bg-white border rounded-lg shadow-lg ${
+              user ? "mt-72" : "mt-40"
+            } transition-all duration-300 ease-in-out`}
           >
             {user ? (
               <ul className="py-2">
                 <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
                   User Profile
                 </li>
-                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                <li
+                  className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                  onClick={() => {
+                    router.push("/new-trip");
+                  }}
+                >
                   Create New Trip
                 </li>
                 <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
@@ -57,19 +64,25 @@ export const DropdownMenu = () => {
                 <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
                   Trip History
                 </li>
-                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                onClick={handleLogout}>
+                <li
+                  className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                  onClick={handleLogout}
+                >
                   Log Out
                 </li>
               </ul>
             ) : (
               <ul className="py-2">
-                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                onClick={() => router.push("/login")}>
+                <li
+                  className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                  onClick={() => router.push("/login")}
+                >
                   Login
                 </li>
-                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                onClick={() => router.push("/sign-up")}>
+                <li
+                  className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                  onClick={() => router.push("/sign-up")}
+                >
                   Sign Up
                 </li>
               </ul>

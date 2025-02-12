@@ -1,6 +1,6 @@
 import axios from "axios";
 import { supabase } from "@/lib/supabase";
-import SignUpResponse from "@/types/index.d";
+import { PostTripResponse, SignUpResponse } from "@/types";
 
 const backendApi = axios.create({
   baseURL: "https://readysetpack.onrender.com/api",
@@ -8,9 +8,9 @@ const backendApi = axios.create({
 
 const cityApiNinjas = axios.create({
   baseURL: "https://api.api-ninjas.com/v1",
-  headers: { 
-    'X-Api-Key': process.env.NEXT_PUBLIC_NINJA_API_KEY
-  }
+  headers: {
+    "X-Api-Key": process.env.NEXT_PUBLIC_NINJA_API_KEY,
+  },
 });
 
 export const signUpUser = async (
@@ -40,14 +40,11 @@ export const signUpUser = async (
     return response;
   }
   try {
-    const response = await backendApi.post(
-      "/users",
-      {
-        user_id: userId,
-        username: username,
-        name: name,
-      }
-    );
+    const response = await backendApi.post("/users", {
+      user_id: userId,
+      username: username,
+      name: name,
+    });
 
     return { success: true, userId };
   } catch (backendError) {}
@@ -55,28 +52,55 @@ export const signUpUser = async (
 
 export const getCityInfo = async (city: string) => {
   try {
-    const response = await cityApiNinjas.get('/city', {
+    const response = await cityApiNinjas.get("/city", {
       params: {
         name: city,
-      }
+      },
     });
     return response.data;
   } catch (error) {
-    console.error('API Error:', error);
+    console.error("API Error:", error);
     return [];
   }
 };
 export const getCountryInfo = async (country: string) => {
   try {
-    const response = await cityApiNinjas.get('/country', {
+    const response = await cityApiNinjas.get("/country", {
       params: {
         name: country,
-      }
+      },
     });
     return response.data;
   } catch (error) {
-    console.error('API Error:', error);
+    console.error("API Error:", error);
     return [];
   }
 };
 
+export const postTrip = async (postBody: any, user_id: string) => {
+  try {
+    const response: PostTripResponse = await backendApi.post(
+      `/trips/${user_id}`,
+      postBody
+    );
+
+    return { success: true, response };
+  } catch (error) {
+    console.log("Error:", error);
+    const response: PostTripResponse = {
+      success: false,
+    };
+    return response;
+  }
+};
+
+export const fetchCurrencyByCountry = async (countryCode: string) => {
+  try {
+    const response = await fetch("/data/currencies.json");
+    const currencyData = await response.json();
+    return currencyData[countryCode] || null;
+  } catch (error) {
+    console.error("Error fetching local currency data:", error);
+    return null;
+  }
+};

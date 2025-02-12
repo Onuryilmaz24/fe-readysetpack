@@ -52,14 +52,14 @@ export const BudgetInput = ({
                 placeholder="Amount"
                 value={budget}
                 onChange={(e) => {
-                  const newBudget = e.target.value
+                  const newBudget = e.target.value;
                   setBudget(newBudget);
                   setInputBody((prevInput: any) => {
                     return {
                       ...prevInput,
                       budget: {
                         ...prevInput.budget,
-                        current_amount: newBudget,
+                        current_amount: Number(newBudget),
                       },
                     };
                   });
