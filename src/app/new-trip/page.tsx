@@ -44,8 +44,6 @@ export default function NewTrip() {
       best_places_to_visit: [],
       img_url_of_landmarks: [],
     },
-    events: [],
-
     daily_expected_cost: 100,
   });
 
