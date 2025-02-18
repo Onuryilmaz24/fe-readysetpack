@@ -61,7 +61,10 @@ export const DropdownMenu = () => {
                 <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
                   Current Trips
                 </li>
-                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                 onClick={() => {
+                  router.push("/trips-history");
+                }}>
                   Trip History
                 </li>
                 <li

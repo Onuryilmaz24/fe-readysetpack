@@ -104,3 +104,23 @@ export const fetchCurrencyByCountry = async (countryCode: string) => {
     return null;
   }
 };
+
+export const getTripsByUserId = async (user_id: string) => {
+  try {
+    const response = await backendApi.get(`/trips/${user_id}`);
+    return response.data.trips;
+  } catch (error) {
+    console.error("Error fetching trips by user ID:", error);
+    return [];  
+  }
+};
+
+export const getSingleTripByTripId = async (user_id:string,trip_id:string) =>{
+  try{
+    const response = await backendApi.get(`/trips/${user_id}/${trip_id}`);
+    return response.data.trip
+  }catch(error){
+    console.error("Error fetching trips by user ID:", error);
+
+  }
+}
