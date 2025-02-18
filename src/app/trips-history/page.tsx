@@ -6,11 +6,13 @@ import { getTripsByUserId } from "@/api/api";
 import { useAuth } from "@/context/AuthContext";
 import { Header } from "@/components/shared/Header";
 import TripsCard from "@/components/trips-history/trips-card";
+import { useRouter } from "next/navigation";
 
 export default function TripsHistory() {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -56,30 +58,20 @@ export default function TripsHistory() {
           {trips.length === 0 ? (
             // Empty state
             <div className="text-center py-12">
-              <div className="text-gray-400 mb-4">
-                <svg
-                  className="mx-auto h-12 w-12"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"
-                  />
-                </svg>
-              </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
                 No trips planned yet
               </h3>
-              <p className="text-gray-500">
+              <p className="text-gray-500 mb-6">
                 Start planning your next adventure today!
               </p>
+              <button
+                onClick={() => router.push('/new-trip')}
+                className="bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+              >
+                Plan New Trip
+              </button>
             </div>
           ) : (
-            // Grid of trip cards
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {trips.map((trip) => (
                 <div key={trip.trip_id} className="flex justify-center">

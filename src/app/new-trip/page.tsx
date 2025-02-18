@@ -67,7 +67,7 @@ export default function NewTrip() {
     <>
       <Header />
       {user ? (
-        <div className="border-2 border-black flex justify-center">
+        <div className=" flex justify-center mt-2">
           <div className="bg-white w-full lg:w-3/5 h-auto flex flex-col justify-center p-8 gap-4 rounded-xl shadow-lg border border-gray-200 text-center">
             <h1 className="text-4xl font-bold text-gray-800 mb-4">
               Plan Your Trip
@@ -111,14 +111,14 @@ export default function NewTrip() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-500 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300 text-base sm:text-lg font-medium"
+                className="w-full bg-blue-500 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300 text-base sm:text-lg font-medium mt-6"
               >
                 {loading ? "Loading..." : "Create New Trip"}
               </button>
             </form>
           </div>
         </div>
-      ) : (
+      ) : ( 
         <div className="w-full flex justify-center mt-20 h-full items-center">
           <div className="bg-white w-full lg:w-3/5 h-auto lg:h-[600px] flex flex-col justify-center p-8 gap-4 rounded-xl shadow-lg border border-gray-200 text-center">
             <p className="font-bold text-2xl mb-20">
