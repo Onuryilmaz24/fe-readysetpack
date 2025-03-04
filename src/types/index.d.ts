@@ -14,6 +14,12 @@ export interface PostChecklistResponse{
 	error?:string;
 }
 
+export interface UpdateChecklistItemResponse{
+	success:boolean;
+	response?:any;
+	error?:string;
+}
+
 export interface Trip {
 	trip_id?: string;
 	user_id?: string;

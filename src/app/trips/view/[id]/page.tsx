@@ -87,7 +87,7 @@ export default function ViewTrip() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 flex">
+      <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 lg:flex lg:flex-row sm:flex-col">
         <div className="max-w-4xl mx-auto flex">
           {/* Hero Section */}
           <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
@@ -242,14 +242,14 @@ export default function ViewTrip() {
           </div>
         </div>
         {checklist && (
-          <div className="mt-6 mr-14 border-2 h-min rounded-lg bg-white">
+          <div className="mt-6 mr-14 border-2 h-min rounded-lg bg-white shadow-md sticky top-24">
             <div className="p-4">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
                 Your Checklist
               </h3>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-4">
                 {checklist.items.map((item: any) => (
-                  <ChecklistCard checklistItem={item} key={item.item} />
+                  <ChecklistCard checklistItem={item} key={item.item} user_id={user.id} trip_id={trip_id} />
                 ))}
               </div>
             </div>

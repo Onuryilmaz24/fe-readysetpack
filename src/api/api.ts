@@ -1,6 +1,11 @@
 import axios from "axios";
 import { supabase } from "@/lib/supabase";
-import { PostChecklistResponse, PostTripResponse, SignUpResponse } from "@/types";
+import {
+  PostChecklistResponse,
+  PostTripResponse,
+  SignUpResponse,
+  UpdateChecklistItemResponse,
+} from "@/types";
 
 const backendApi = axios.create({
   baseURL: "https://readysetpack.onrender.com/api",
@@ -111,40 +116,64 @@ export const getTripsByUserId = async (user_id: string) => {
     return response.data.trips;
   } catch (error) {
     console.error("Error fetching trips by user ID:", error);
-    return [];  
+    return [];
   }
 };
 
-export const getSingleTripByTripId = async (user_id:string,trip_id:string) =>{
-  try{
+export const getSingleTripByTripId = async (
+  user_id: string,
+  trip_id: string
+) => {
+  try {
     const response = await backendApi.get(`/trips/${user_id}/${trip_id}`);
-    return response.data.trip
-  }catch(error){
+    return response.data.trip;
+  } catch (error) {
     console.error("Error fetching trips by user ID:", error);
-
   }
-}
-export const getChecklistById = async (user_id:string,trip_id:string) =>{
-  try{
+};
+export const getChecklistById = async (user_id: string, trip_id: string) => {
+  try {
     const response = await backendApi.get(`/checklists/${user_id}/${trip_id}`);
-    return response.data.checklist
-  }catch(error){
+    return response.data.checklist;
+  } catch (error) {
     console.error("Error fetching checklist by user ID:", error);
-
   }
-}
-export const createChecklistForTrip = async (user_id:string,trip_id:string) =>{
-  try{
-    const response : PostChecklistResponse = await backendApi.post(`/checklists/${user_id}/${trip_id}`);
-    return { success: true, response }
-  }catch(error){
+};
+export const createChecklistForTrip = async (
+  user_id: string,
+  trip_id: string
+) => {
+  try {
+    const response: PostChecklistResponse = await backendApi.post(
+      `/checklists/${user_id}/${trip_id}`
+    );
+    return { success: true, response };
+  } catch (error) {
     console.log("Error:", error);
     const response: PostTripResponse = {
       success: false,
     };
     return response;
-
   }
-}
+};
 
-
+export const changeChecklistItemStatus = async (
+  user_id: string,
+  trip_id: string,
+  item: string
+) => {
+  try {
+    const response: UpdateChecklistItemResponse = await backendApi.patch(
+      `/checklists/${user_id}/${trip_id}/change-status`,
+      {newItem : item}
+    );
+    console.log("func called")
+    return { success: true, response };
+  } catch (error) {
+    console.log("Error:", error);
+    const response: PostTripResponse = {
+      success: false,
+    };
+    return response;
+  }
+};
