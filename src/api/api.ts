@@ -1,6 +1,6 @@
 import axios from "axios";
 import { supabase } from "@/lib/supabase";
-import { PostTripResponse, SignUpResponse } from "@/types";
+import { PostChecklistResponse, PostTripResponse, SignUpResponse } from "@/types";
 
 const backendApi = axios.create({
   baseURL: "https://readysetpack.onrender.com/api",
@@ -124,3 +124,27 @@ export const getSingleTripByTripId = async (user_id:string,trip_id:string) =>{
 
   }
 }
+export const getChecklistById = async (user_id:string,trip_id:string) =>{
+  try{
+    const response = await backendApi.get(`/checklists/${user_id}/${trip_id}`);
+    return response.data.checklist
+  }catch(error){
+    console.error("Error fetching checklist by user ID:", error);
+
+  }
+}
+export const createChecklistForTrip = async (user_id:string,trip_id:string) =>{
+  try{
+    const response : PostChecklistResponse = await backendApi.post(`/checklists/${user_id}/${trip_id}`);
+    return { success: true, response }
+  }catch(error){
+    console.log("Error:", error);
+    const response: PostTripResponse = {
+      success: false,
+    };
+    return response;
+
+  }
+}
+
+

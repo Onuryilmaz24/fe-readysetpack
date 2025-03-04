@@ -8,6 +8,12 @@ export interface PostTripResponse {
   error?: string;
 };
 
+export interface PostChecklistResponse{
+	success:boolean;
+	response?:any;
+	error?:string;
+}
+
 export interface Trip {
 	trip_id?: string;
 	user_id?: string;

@@ -32,6 +32,7 @@ export const DatePicker = ({
                   return { ...prevInput, start_date: newDepartureDate };
                 });
               }}
+              min={today}
             />
           </div>
           <div className="mx-auto">
@@ -48,6 +49,7 @@ export const DatePicker = ({
                   return { ...prevInput, end_date: newReturnDate };
                 });
               }}
+              min={departureDate}
             />
           </div>
         </div>
