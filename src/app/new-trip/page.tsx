@@ -8,7 +8,7 @@ import { DatePicker } from "@/components/input-form/DatePicker";
 import { CountrySearchInput } from "@/components/input-form/CountrySearchInput";
 import { BudgetInput } from "@/components/input-form/BudgetInput";
 import { PeopleCount } from "@/components/input-form/PeopleCount";
-import { postTrip } from "@/api/api";
+import { getTripsByUserId, postTrip } from "@/api/api";
 import { PostTripResponse } from "@/types";
 
 export default function NewTrip() {
@@ -53,7 +53,9 @@ export default function NewTrip() {
     const result = (await postTrip(inputBody, user.id)) as PostTripResponse;
     setLoading(false);
     if (result.success) {
-      router.push("/home");
+      const allTrips = await getTripsByUserId(user.id)
+      const newTrip = allTrips[0]
+      router.push(`/trips/view/${btoa(newTrip.trip_id || '')}`);
     } else {
       console.log("post failed:", result.error);
     }

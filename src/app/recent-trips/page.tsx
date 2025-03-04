@@ -8,18 +8,24 @@ import { Header } from "@/components/shared/Header";
 import TripsCard from "@/components/trips-history/trips-card";
 import { useRouter } from "next/navigation";
 
-export default function TripsHistory() {
+export default function RecentTrips() {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const router = useRouter();
+
+  const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     const fetchTrips = async () => {
       try {
         if (user?.id) {
           const tripsData = await getTripsByUserId(user.id);
-          setTrips(tripsData);
+
+          const recentTrips = tripsData.filter((trip:any)=>{
+            return trip.end_date > today
+          })
+          setTrips(recentTrips);
         }
       } catch (error) {
         console.error("Error fetching trips:", error);
@@ -56,7 +62,6 @@ export default function TripsHistory() {
           </div>
 
           {trips.length === 0 ? (
-            // Empty state
             <div className="text-center py-12">
               <h3 className="text-lg font-medium text-gray-900 mb-2">
                 No trips planned yet
