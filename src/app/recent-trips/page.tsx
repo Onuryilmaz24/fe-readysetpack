@@ -22,7 +22,7 @@ export default function RecentTrips() {
         if (user?.id) {
           const tripsData = await getTripsByUserId(user.id);
 
-          const recentTrips = tripsData.filter((trip:any)=>{
+          const recentTrips = tripsData.filter((trip:Trip)=>{
             return trip.end_date > today
           })
           setTrips(recentTrips);

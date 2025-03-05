@@ -9,7 +9,7 @@ import { CountrySearchInput } from "@/components/input-form/CountrySearchInput";
 import { BudgetInput } from "@/components/input-form/BudgetInput";
 import { PeopleCount } from "@/components/input-form/PeopleCount";
 import { getTripsByUserId, postTrip } from "@/api/api";
-import { PostTripResponse } from "@/types";
+import { PostTripResponse, TripPostBody } from "@/types";
 
 export default function NewTrip() {
   const { user } = useAuth();
@@ -19,7 +19,7 @@ export default function NewTrip() {
   const [departureDate, setDepartureDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
   const [searchTermPassport, setSearchTermPassport] = useState("");
-  const [budget, setBudget] = useState("");
+  const [budget, setBudget] = useState(0);
   const [currency, setCurrency] = useState("");
   const [peopleCount, setPeopleCount] = useState("");
   const [inputBody, setInputBody] = useState({
@@ -39,11 +39,6 @@ export default function NewTrip() {
       destination_amount: 0,
     },
     people_count: 0,
-    cityInfo: "",
-    landmarks: {
-      best_places_to_visit: [],
-      img_url_of_landmarks: [],
-    },
     daily_expected_cost: 100,
   });
 
@@ -60,10 +55,6 @@ export default function NewTrip() {
       console.log("post failed:", result.error);
     }
   };
-
-  /*   useEffect(() => {
-    console.log(inputBody); 
-  }, [inputBody]); */
 
   return (
     <>
@@ -104,6 +95,7 @@ export default function NewTrip() {
                 currency={currency}
                 setCurrency={setCurrency}
                 setInputBody={setInputBody}
+                inputBody={inputBody}
               />
               <PeopleCount
                 peopleCount={peopleCount}
@@ -126,7 +118,7 @@ export default function NewTrip() {
             <p className="font-bold text-2xl mb-20">
               You need to sign-up / login in order to create new trip!
             </p>
-            <p className="font-bold text-2xl">Don't you have an account?</p>
+            <p className="font-bold text-2xl">Dont you have an account?</p>
             <button
               onClick={() => router.push("/sign-up")}
               className="bg-green-600 text-white py-3 px-8 rounded-md hover:bg-green-700 transition-all duration-300 text-lg"

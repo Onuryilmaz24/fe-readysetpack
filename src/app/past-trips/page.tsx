@@ -21,7 +21,7 @@ export default function PastTripsHistory() {
       try {
         if (user?.id) {
           const tripsData = await getTripsByUserId(user.id);
-          const recentTrips = tripsData.filter((trip:any)=>{
+          const recentTrips = tripsData.filter((trip:Trip)=>{
             return trip.end_date < today
           })
           setTrips(recentTrips);
@@ -56,7 +56,7 @@ export default function PastTripsHistory() {
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">Your Trip History</h1>
             <p className="text-lg text-gray-600">
-            View all your past trips that have already ended. Keep track of where you've been 
+            View all your past trips that have already ended. Keep track of where you have been 
             and get inspired for your next adventure!
             </p>
           </div>
@@ -67,7 +67,7 @@ export default function PastTripsHistory() {
                 No past Trips FOund
               </h3>
               <p className="text-gray-500 mb-6">
-              It looks like you haven’t traveled yet. Once you complete a trip, it will 
+              It looks like you have not traveled yet. Once you complete a trip, it will 
               appear here. Start planning your next adventure now!
               </p>
               <button

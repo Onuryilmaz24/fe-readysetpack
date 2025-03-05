@@ -4,6 +4,7 @@ import {
   PostChecklistResponse,
   PostTripResponse,
   SignUpResponse,
+  TripPostBody,
   UpdateChecklistItemResponse,
 } from "@/types";
 
@@ -52,7 +53,9 @@ export const signUpUser = async (
     });
     console.log(response.status)
     return { success: true, userId };
-  } catch (backendError) {}
+  } catch (backendError) {
+    console.log(backendError)
+  }
 };
 
 export const getCityInfo = async (city: string) => {
@@ -82,7 +85,7 @@ export const getCountryInfo = async (country: string) => {
   }
 };
 
-export const postTrip = async (postBody: any, user_id: string) => {
+export const postTrip = async (postBody: TripPostBody, user_id: string) => {
   try {
     const response: PostTripResponse = await backendApi.post(
       `/trips/${user_id}`,

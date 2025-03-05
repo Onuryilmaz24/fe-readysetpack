@@ -1,6 +1,7 @@
 "use client";
 
 import { changeChecklistItemStatus, deleteItemFromChecklist } from "@/api/api";
+import { ChecklistItem } from "@/types";
 import { useState, useEffect } from "react";
 
 export default function ChecklistCard({
@@ -9,10 +10,10 @@ export default function ChecklistCard({
   trip_id,
   handleDeleteItem,
 }: {
-  checklistItem: any;
+  checklistItem: ChecklistItem;
   user_id: string;
   trip_id: string;
-  handleDeleteItem:any
+  handleDeleteItem: () => void
 }) {
   const [isCompleted, setIsCompleted] = useState(checklistItem.completed);
 
@@ -24,7 +25,7 @@ export default function ChecklistCard({
         checklistItem.item
       );
       if (result.success) {
-        setIsCompleted((prev: any) => !prev);
+        setIsCompleted((prev: boolean) => !prev);
       } else {
         console.error("Failed to update item status");
       }

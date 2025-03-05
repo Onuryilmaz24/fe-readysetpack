@@ -1,7 +1,7 @@
 "use client";
 
 import { addChecklistItem } from "@/api/api";
-import { ChangeEvent, ReactEventHandler, useState } from "react";
+import { useState } from "react";
 
 export default function ChecklistAddCard({
   user_id,
@@ -10,7 +10,7 @@ export default function ChecklistAddCard({
 }: {
   user_id: string;
   trip_id: string;
-  handleAddItem: any;
+  handleAddItem: () => void;
 }) {
 
 

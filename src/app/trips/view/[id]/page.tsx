@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Trip } from "@/types";
+import { ChecklistItem, Trip } from "@/types";
 import { useParams } from "next/navigation";
 import {
   createChecklistForTrip,
@@ -83,6 +83,7 @@ export default function ViewTrip() {
     try {
       return format(parseISO(dateString), "MMM dd, yyyy");
     } catch (error) {
+      console.log(error)
       return dateString;
     }
   };
@@ -153,7 +154,7 @@ export default function ViewTrip() {
                   <p className="text-gray-600">
                     Daily Cost: ${trip.daily_expected_cost}
                     <br />
-                    Total Budget: ${trip.budget.amount} {trip.budget.currency}
+                    Total Budget: ${trip.budget.destination_amount} {trip.budget.destination_currency}
                   </p>
                 </div>
 
@@ -258,7 +259,7 @@ export default function ViewTrip() {
                 Your Checklist
               </h3>
               <div className="flex flex-col gap-4">
-                {checklist.items.map((item: any) => (
+                {checklist.items.map((item: ChecklistItem ) => (
                   <ChecklistCard
                     checklistItem={item}
                     key={item.item}

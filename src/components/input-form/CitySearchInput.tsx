@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { fetchCurrencyByCountry, getCityInfo, getCountryInfo } from "@/api/api";
+import { fetchCurrencyByCountry, getCityInfo } from "@/api/api";
 
 export const CitySearchInput = ({
   searchTerm,
   setSearchTerm,
   setInputBody,
-  inputBody,
 }: any) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [cities, setCities] = useState([]);

@@ -7,7 +7,7 @@ import { getCityInfo } from "@/api/api";
 export const Content = () => {
   const router = useRouter();
 
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [cities, setCities] = useState([]);
@@ -29,7 +29,12 @@ export const Content = () => {
     setIsLoading(false);
   };
 
-  const handleCitySelect = (city: any) => {
+  
+
+  const handleCitySelect = (city: {
+    name:string,
+    country:string
+  }) => {
     setSearchTerm(`${city.name}, ${city.country}`);
     setShowDropdown(false);
   };
@@ -65,7 +70,7 @@ export const Content = () => {
           {user ? (
             <div className="bg-white w-full lg:w-3/5 h-auto lg:h-[600px] flex flex-col justify-center p-8 gap-4 rounded-xl shadow-lg border border-gray-200">
               <h1 className="text-4xl font-bold text-gray-800 mb-4">
-                Let's get started!
+                Lets get started!
               </h1>
               <form className="relative w-full" onSubmit={handleSubmit} id="pre-form" name="pre-form">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -90,7 +95,10 @@ export const Content = () => {
                 </div>
                 {showDropdown && cities.length > 0 && (
                   <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
-                    {cities.map((city: any) => (
+                    {cities.map((city: {
+                      name:string,
+                      country:string
+                    }) => (
                       <div
                         key={city.name}
                         onClick={() => handleCitySelect(city)}
@@ -110,6 +118,7 @@ export const Content = () => {
                     <input
                       type="date"
                       id="departureDate"
+                      value={departureDate}
                       className="border-2 rounded-lg p-2 mt-2"
                       onChange={(e) => {
                         setDepartureDate(e.target.value);
@@ -121,6 +130,7 @@ export const Content = () => {
                     <input
                       type="date"
                       id="returnDate"
+                      value={returnDate}
                       className="border-2 rounded-lg p-2 mt-2"
                       onChange={(e) => {
                         setReturnDate(e.target.value);
