@@ -5,10 +5,10 @@ import React from "react";
 export default function Home() {
   return (
     
-      <body>
+      <>
         <Header />
         <Content/>
-      </body>
+        </>
     
   );
 }
