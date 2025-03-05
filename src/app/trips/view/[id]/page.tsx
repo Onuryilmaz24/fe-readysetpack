@@ -12,6 +12,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Header } from "@/components/shared/Header";
 import { format, parseISO } from "date-fns";
 import ChecklistCard from "@/components/checklist/ChecklistCard";
+import ChecklistAddCard from "@/components/checklist/ChecklistAddCard";
 
 export default function ViewTrip() {
   const [trip, setTrip] = useState<Trip | null>(null);
@@ -24,6 +25,8 @@ export default function ViewTrip() {
     user_id: string;
     items: { item: string; completed: boolean }[];
   }>(null);
+
+  const [checklistUpdated,setChecklistUpdated]=useState(false)
   const trip_id = atob(params.id as string);
 
   useEffect(() => {
@@ -43,7 +46,7 @@ export default function ViewTrip() {
     };
 
     fetchTrip();
-  }, [params.id, user]);
+  }, [params.id, user,checklistUpdated]);
 
   const handleChecklistButton = async () => {
     const response = await createChecklistForTrip(user.id, trip_id);
@@ -83,6 +86,10 @@ export default function ViewTrip() {
       return dateString;
     }
   };
+
+  const handleAddItem = () =>{
+    setChecklistUpdated((prev)=> !prev)
+  }
 
   return (
     <>
@@ -242,17 +249,23 @@ export default function ViewTrip() {
           </div>
         </div>
         {checklist && (
-          <div className="mt-6 mr-14 border-2 h-min rounded-lg bg-white shadow-md sticky top-24">
+          <div className="mt-6 mr-14 border-2 h-min rounded-lg bg-white shadow-md sticky top-24 justify-items-center">
             <div className="p-4">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
                 Your Checklist
               </h3>
               <div className="flex flex-col gap-4">
                 {checklist.items.map((item: any) => (
-                  <ChecklistCard checklistItem={item} key={item.item} user_id={user.id} trip_id={trip_id} />
+                  <ChecklistCard
+                    checklistItem={item}
+                    key={item.item}
+                    user_id={user.id}
+                    trip_id={trip_id}
+                  />
                 ))}
               </div>
             </div>
+            <ChecklistAddCard user_id={user.id} trip_id={trip_id} handleAddItem={handleAddItem}/>
           </div>
         )}
       </div>

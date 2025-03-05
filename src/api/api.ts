@@ -167,7 +167,6 @@ export const changeChecklistItemStatus = async (
       `/checklists/${user_id}/${trip_id}/change-status`,
       {newItem : item}
     );
-    console.log("func called")
     return { success: true, response };
   } catch (error) {
     console.log("Error:", error);
@@ -177,3 +176,26 @@ export const changeChecklistItemStatus = async (
     return response;
   }
 };
+export const addChecklistItem = async (
+  user_id: string,
+  trip_id: string,
+  item: string
+) => {
+  try {
+    const response: UpdateChecklistItemResponse = await backendApi.patch(
+      `/checklists/${user_id}/${trip_id}`,
+      {newItem : item}
+    );
+    console.log("func called")
+    return { success: true, response };
+  } catch (error) {
+    console.log("Error:", error);
+    const response: PostTripResponse = {
+      success: false,
+      error:"failed to post"
+    };
+    return response;
+  }
+};
+
+
