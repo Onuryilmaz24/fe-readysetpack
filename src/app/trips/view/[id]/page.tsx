@@ -26,7 +26,7 @@ export default function ViewTrip() {
     items: { item: string; completed: boolean }[];
   }>(null);
 
-  const [checklistUpdated,setChecklistUpdated]=useState(false)
+  const [checklistUpdated, setChecklistUpdated] = useState(false);
   const trip_id = atob(params.id as string);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function ViewTrip() {
     };
 
     fetchTrip();
-  }, [params.id, user,checklistUpdated]);
+  }, [params.id, user, checklistUpdated]);
 
   const handleChecklistButton = async () => {
     const response = await createChecklistForTrip(user.id, trip_id);
@@ -87,9 +87,12 @@ export default function ViewTrip() {
     }
   };
 
-  const handleAddItem = () =>{
-    setChecklistUpdated((prev)=> !prev)
-  }
+  const handleAddItem = () => {
+    setChecklistUpdated((prev) => !prev);
+  };
+  const handleDeleteItem = () => {
+    setChecklistUpdated((prev) => !prev);
+  };
 
   return (
     <>
@@ -249,7 +252,7 @@ export default function ViewTrip() {
           </div>
         </div>
         {checklist && (
-          <div className="mt-6 mr-14 border-2 h-min rounded-lg bg-white shadow-md sticky top-24 justify-items-center">
+          <div className="mt-6 mr-14 border-2 h-min rounded-lg bg-white shadow-md sticky top-24 justify-items-center ">
             <div className="p-4">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
                 Your Checklist
@@ -261,11 +264,16 @@ export default function ViewTrip() {
                     key={item.item}
                     user_id={user.id}
                     trip_id={trip_id}
+                    handleDeleteItem={handleDeleteItem}
                   />
                 ))}
               </div>
+              <ChecklistAddCard
+                user_id={user.id}
+                trip_id={trip_id}
+                handleAddItem={handleAddItem}
+              />
             </div>
-            <ChecklistAddCard user_id={user.id} trip_id={trip_id} handleAddItem={handleAddItem}/>
           </div>
         )}
       </div>

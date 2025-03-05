@@ -13,7 +13,6 @@ export default function ChecklistAddCard({
   handleAddItem: any;
 }) {
 
-    const [itemPosted,setItemPosted] = useState(false)
 
     const [item, setItem] = useState("")
 
@@ -25,7 +24,6 @@ export default function ChecklistAddCard({
             return;
         }
         
-        setItemPosted(true)
         const result = await addChecklistItem(user_id,trip_id,item)
 
         if(result.success){
@@ -37,7 +35,7 @@ export default function ChecklistAddCard({
     }
 
   return (
-    <div className="my-6 w-11/12 max-w-lg bg-white shadow-md rounded-xl p-4 mx-auto flex flex-col">
+    <div className="my-6 w-full  bg-white shadow-md rounded-xl p-4 mx-auto flex flex-col">
       <form
         name="add-checklist"
         id="add-checklist"
