@@ -50,7 +50,7 @@ export const signUpUser = async (
       username: username,
       name: name,
     });
-
+    console.log(response.status)
     return { success: true, userId };
   } catch (backendError) {}
 };
