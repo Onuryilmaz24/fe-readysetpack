@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getCountryInfo } from "@/api/api";
+import { Country } from "@/types";
 
 export const CountrySearchInput = ({ searchTermPassport, setSearchTermPassport , setInputBody}: any) => {
   const [showDropdownPassport, setShowDropdownPassport] = useState(false);
@@ -19,7 +20,7 @@ export const CountrySearchInput = ({ searchTermPassport, setSearchTermPassport ,
     setIsLoadingPassport(false);
   };
 
-  const handleCountrySelect = (country: any) => {
+  const handleCountrySelect = (country: Country) => {
     setSearchTermPassport(`${country.name}, ${country.iso2}`);
     setInputBody((prevInput:any)=>{
       return {...prevInput, passport_issued_country:country.iso2}
@@ -49,7 +50,7 @@ export const CountrySearchInput = ({ searchTermPassport, setSearchTermPassport ,
       </div>
       {showDropdownPassport && passportCountries.length > 0 && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
-          {passportCountries.map((country: any) => (
+          {passportCountries.map((country: Country) => (
             <div key={country.name} onClick={() => handleCountrySelect(country)} className="p-3 hover:bg-gray-100 cursor-pointer flex flex-col">
               <span className="font-medium">{country.name}</span>
               <span className="text-sm text-gray-500">{country.iso2}</span>

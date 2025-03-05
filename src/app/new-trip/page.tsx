@@ -2,7 +2,7 @@
 import { Header } from "@/components/shared/Header";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CitySearchInput } from "@/components/input-form/CitySearchInput";
 import { DatePicker } from "@/components/input-form/DatePicker";
 import { CountrySearchInput } from "@/components/input-form/CountrySearchInput";

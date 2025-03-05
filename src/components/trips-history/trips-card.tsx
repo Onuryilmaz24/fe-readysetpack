@@ -11,6 +11,7 @@ export default function TripsCard({ trip }: { trip: Trip }) {
     try {
       return format(parseISO(dateString), 'MMM dd, yyyy');
     } catch (error) {
+      console.log(error)
       return dateString;
     }
   };

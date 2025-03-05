@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { fetchCurrencyByCountry, getCityInfo } from "@/api/api";
+import { City } from "@/types";
 
 export const CitySearchInput = ({
   searchTerm,
@@ -23,7 +24,7 @@ export const CitySearchInput = ({
     setIsLoading(false);
   };
 
-  const handleCitySelect = async (city: any) => {
+  const handleCitySelect = async (city:City ) => {
     setSearchTerm(`${city.name}, ${city.country}`);
     setInputBody((prevInput: any) => {
       return {
@@ -35,7 +36,7 @@ export const CitySearchInput = ({
         },
       };
     });
-    let currencyCode = await fetchCurrencyByCountry(city.country);
+    const currencyCode = await fetchCurrencyByCountry(city.country);
     setInputBody((prevInput: any) => ({
       ...prevInput,
       destination: {
@@ -72,7 +73,7 @@ export const CitySearchInput = ({
       </div>
       {showDropdown && cities.length > 0 && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
-          {cities.map((city: any) => (
+          {cities.map((city: City) => (
             <div
               key={city.name}
               onClick={() => handleCitySelect(city)}
