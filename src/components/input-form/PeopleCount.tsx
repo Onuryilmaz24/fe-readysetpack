@@ -14,7 +14,8 @@ export const PeopleCount = ({
             type="number"
             id="departureDate"
             className="px-4 py-2 rounded-lg focus:outline-none border-2 focus:border-blue-500 border-black"
-            value={peopleCount}
+            value={peopleCount || ""}
+            required
             onChange={(e) => {
               const newPeopleCount = Number(e.target.value);
               setPeopleCount(newPeopleCount);

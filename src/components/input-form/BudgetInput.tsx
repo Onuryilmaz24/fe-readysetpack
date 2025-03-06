@@ -53,7 +53,7 @@ export const BudgetInput = ({
                 type="number"
                 className="w-full px-4 py-2 rounded-lg focus:outline-none border-2 focus:border-blue-500 border-black"
                 placeholder="Amount"
-                value={budget.current_amount}
+                value={budget.current_amount || ""}
                 onChange={(e) => {
                   const newBudgetAmount = Number(e.target.value);
                   setBudget((prevBudget) => ({

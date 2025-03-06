@@ -21,6 +21,7 @@ export const DatePicker = ({
             <p>Departure Date</p>
             <input
               type="date"
+              required
               id="departureDate"
               className="border-2 rounded-lg p-2 mt-2"
               value={departureDate}

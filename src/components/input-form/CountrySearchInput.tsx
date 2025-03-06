@@ -34,6 +34,7 @@ export const CountrySearchInput = ({ searchTermPassport, setSearchTermPassport ,
       <div className="relative">
         <input 
           type="text" 
+          required
           className="w-full px-4 py-2 rounded-lg focus:outline-none border-2 focus:border-blue-500 border-black"
           placeholder="Type a country name.."
           value={searchTermPassport}

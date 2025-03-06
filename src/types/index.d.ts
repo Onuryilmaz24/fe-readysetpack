@@ -51,10 +51,10 @@ export interface Events {
 }
 
 export interface Budget {
-  current_amount: number;
+  current_amount?: number;
   current_currency: string;
   destination_currency: string;
-  destination_amount: number;
+  destination_amount?: number;
 }
 
 export interface Landmarks {

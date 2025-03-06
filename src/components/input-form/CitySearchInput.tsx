@@ -34,7 +34,7 @@ export const CitySearchInput = ({
           ...prevInput.destination,
           city: city.name,
           country: city.country,
-          currency: currencyCode || ""
+          currency:  ""
         },
       };
     });
@@ -64,6 +64,7 @@ export const CitySearchInput = ({
       <div className="relative">
         <input
           type="text"
+          required
           className="w-full px-4 py-2 rounded-lg focus:outline-none border-2 focus:border-blue-500 border-black"
           placeholder="Type a city name.."
           value={searchTerm}
