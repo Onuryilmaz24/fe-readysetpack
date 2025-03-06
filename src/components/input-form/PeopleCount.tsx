@@ -1,4 +1,4 @@
-import { PeopleCountProbs } from "@/types";
+import { PeopleCountProbs, TripPostBody } from "@/types";
 
 export const PeopleCount = ({
   peopleCount,
@@ -18,7 +18,7 @@ export const PeopleCount = ({
             onChange={(e) => {
               const newPeopleCount = Number(e.target.value);
               setPeopleCount(newPeopleCount);
-              setInputBody((prevInput: any) => {
+              setInputBody((prevInput: TripPostBody) => {
                 return { ...prevInput, people_count: Number(newPeopleCount) };
               });
             }}
