@@ -9,8 +9,5 @@ module.exports = {
         permanent: true, // 301 redirect (permanent)
       },
     ];
-  },
-  eslint:{
-    ignoreDuringBuilds:true
   }
 };
