@@ -29,6 +29,7 @@ export const DropdownMenu = () => {
   };
 
   const handleLatestTrip = async () => {
+    if (!user) return; // Early return if user is null
     const allTrips = await getTripsByUserId(user.id)
     const latestTrip = allTrips[0]
     if(latestTrip.trip_id){
