@@ -49,15 +49,27 @@ export default function NewTrip() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!user) {
+      console.log("User is not authenticated");
+      return;
+    }
+
     setLoading(true);
-    const result = (await postTrip(inputBody, user.id)) as PostTripResponse;
-    setLoading(false);
-    if (result.success) {
-      const allTrips = await getTripsByUserId(user.id)
-      const newTrip = allTrips[0]
-      router.push(`/trips/view/${btoa(newTrip.trip_id || '')}`);
-    } else {
-      console.log("post failed:", result.error);
+    try {
+      const result = (await postTrip(inputBody, user.id)) as PostTripResponse;
+      setLoading(false);
+
+      if (result.success) {
+        const allTrips = await getTripsByUserId(user.id);
+        const newTrip = allTrips[0];
+        router.push(`/trips/view/${btoa(newTrip.trip_id || "")}`);
+      } else {
+        console.log("Post failed:", result.error);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("An error occurred while submitting the trip:", error);
     }
   };
 
@@ -117,7 +129,7 @@ export default function NewTrip() {
             </form>
           </div>
         </div>
-      ) : ( 
+      ) : (
         <div className="w-full flex justify-center mt-20 h-full items-center">
           <div className="bg-white w-full lg:w-3/5 h-auto lg:h-[600px] flex flex-col justify-center p-8 gap-4 rounded-xl shadow-lg border border-gray-200 text-center">
             <p className="font-bold text-2xl mb-20">
