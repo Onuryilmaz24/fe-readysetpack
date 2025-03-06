@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { fetchCurrencyByCountry, getCityInfo } from "@/api/api";
-import { City } from "@/types";
+import { City, CitySearchProbs, TripPostBody } from "@/types";
 
 export const CitySearchInput = ({
   searchTerm,
   setSearchTerm,
   setInputBody,
-}: any) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [cities, setCities] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  budget
+}: CitySearchProbs) => {
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [cities, setCities] = useState<City[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const searchCities = async (search: string) => {
     if (search.length < 3) return;
@@ -26,26 +27,32 @@ export const CitySearchInput = ({
 
   const handleCitySelect = async (city:City ) => {
     setSearchTerm(`${city.name}, ${city.country}`);
-    setInputBody((prevInput: any) => {
+    setInputBody((prevInput:TripPostBody) => {
       return {
         ...prevInput,
         destination: {
           ...prevInput.destination,
           city: city.name,
           country: city.country,
+          currency: currencyCode || ""
         },
       };
     });
     const currencyCode = await fetchCurrencyByCountry(city.country);
-    setInputBody((prevInput: any) => ({
+    setInputBody((prevInput: TripPostBody) => ({
       ...prevInput,
       destination: {
         ...prevInput.destination,
-        currency: currencyCode,
+        city: city.name || "", 
+        country: city.country || "", 
+        currency: currencyCode || "", 
       },
       budget: {
         ...prevInput.budget,
-        destination_currency: currencyCode,
+        destination_currency: currencyCode || "",
+        current_amount:budget.current_amount || 0,
+        current_currency:budget.current_currency || "",
+        destination_amount: budget.destination_amount || 0,
       },
     }));
     setShowDropdown(false);

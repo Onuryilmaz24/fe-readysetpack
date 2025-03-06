@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { getCountryInfo } from "@/api/api";
-import { Country } from "@/types";
+import { Country, CountrySearchProbs, TripPostBody } from "@/types";
 
-export const CountrySearchInput = ({ searchTermPassport, setSearchTermPassport , setInputBody}: any) => {
-  const [showDropdownPassport, setShowDropdownPassport] = useState(false);
-  const [passportCountries, setPassportCountries] = useState([]);
-  const [isLoadingPassport, setIsLoadingPassport] = useState(false);
+export const CountrySearchInput = ({ searchTermPassport, setSearchTermPassport , setInputBody}: CountrySearchProbs) => {
+  const [showDropdownPassport, setShowDropdownPassport] = useState<boolean>(false);
+  const [passportCountries, setPassportCountries] = useState<Country[]>([]);
+  const [isLoadingPassport, setIsLoadingPassport] = useState<boolean>(false);
 
   const searchPassportCountries = async (search: string) => {
     if (search.length < 3) return;
@@ -22,7 +22,7 @@ export const CountrySearchInput = ({ searchTermPassport, setSearchTermPassport ,
 
   const handleCountrySelect = (country: Country) => {
     setSearchTermPassport(`${country.name}, ${country.iso2}`);
-    setInputBody((prevInput:any)=>{
+    setInputBody((prevInput:TripPostBody)=>{
       return {...prevInput, passport_issued_country:country.iso2}
     })
     setShowDropdownPassport(false);

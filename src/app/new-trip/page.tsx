@@ -9,7 +9,7 @@ import { CountrySearchInput } from "@/components/input-form/CountrySearchInput";
 import { BudgetInput } from "@/components/input-form/BudgetInput";
 import { PeopleCount } from "@/components/input-form/PeopleCount";
 import { getTripsByUserId, postTrip } from "@/api/api";
-import { PostTripResponse, TripPostBody } from "@/types";
+import { Budget, PostTripResponse, TripPostBody } from "@/types";
 
 export default function NewTrip() {
   const { user } = useAuth();
@@ -19,10 +19,15 @@ export default function NewTrip() {
   const [departureDate, setDepartureDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
   const [searchTermPassport, setSearchTermPassport] = useState("");
-  const [budget, setBudget] = useState(0);
+  const [budget, setBudget] = useState<Budget>({
+    current_amount: 0,
+    current_currency: "",
+    destination_currency: "",
+    destination_amount: 0,
+  });
   const [currency, setCurrency] = useState("");
-  const [peopleCount, setPeopleCount] = useState("");
-  const [inputBody, setInputBody] = useState({
+  const [peopleCount, setPeopleCount] = useState(0);
+  const [inputBody, setInputBody] = useState<TripPostBody>({
     destination: {
       city: "",
       country: "",
@@ -75,7 +80,7 @@ export default function NewTrip() {
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
                 setInputBody={setInputBody}
-                inputBody={inputBody}
+                budget={budget}
               />
               <DatePicker
                 departureDate={departureDate}

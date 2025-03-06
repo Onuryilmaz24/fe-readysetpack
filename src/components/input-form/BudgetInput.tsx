@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getCountryInfo } from "@/api/api";
+import { BudgetInputProps, Country } from "@/types";
 
 export const BudgetInput = ({
   budget,
@@ -7,9 +8,9 @@ export const BudgetInput = ({
   currency,
   setCurrency,
   setInputBody,
-}: any) => {
+}: BudgetInputProps) => {
   const [showDropdownPassport, setShowDropdownPassport] = useState(false);
-  const [passportCountries, setPassportCountries] = useState([]);
+  const [passportCountries, setPassportCountries] = useState<Country[]>([]);
   const [isLoadingPassport, setIsLoadingPassport] = useState(false);
 
   const searchPassportCountries = async (search: string) => {
@@ -25,14 +26,16 @@ export const BudgetInput = ({
     setIsLoadingPassport(false);
   };
 
-  const handleCurrencySelect = (country: any) => {
+  const handleCurrencySelect = (country: Country) => {
     setCurrency(`${country.currency.name}, ${country.currency.code}`);
-    setInputBody((prevInput: any) => {
+    setInputBody((prevInput) => {
       return {
         ...prevInput,
         budget: {
-          ...prevInput.budget,
           current_currency: country.currency.code,
+          current_amount: prevInput.budget?.current_amount ?? 0,
+          destination_currency: prevInput.budget?.destination_currency ?? "",
+          destination_amount: prevInput.budget?.destination_amount ?? 0,
         },
       };
     });
@@ -50,16 +53,21 @@ export const BudgetInput = ({
                 type="number"
                 className="w-full px-4 py-2 rounded-lg focus:outline-none border-2 focus:border-blue-500 border-black"
                 placeholder="Amount"
-                value={budget}
+                value={budget.current_amount}
                 onChange={(e) => {
-                  const newBudget = e.target.value;
-                  setBudget(newBudget);
-                  setInputBody((prevInput: any) => {
+                  const newBudgetAmount = Number(e.target.value);
+                  setBudget((prevBudget) => ({
+                    ...prevBudget,
+                    current_amount: newBudgetAmount,
+                  }));
+                  setInputBody((prevInput) => {
                     return {
                       ...prevInput,
                       budget: {
-                        ...prevInput.budget,
-                        current_amount: Number(newBudget),
+                        current_amount: Number(newBudgetAmount),
+                        current_currency: prevInput.budget?.current_currency ?? "", // Ensure it's a string
+                        destination_currency: prevInput.budget?.destination_currency ?? "",
+                        destination_amount: prevInput.budget?.destination_amount ?? 0,
                       },
                     };
                   });
@@ -90,7 +98,7 @@ export const BudgetInput = ({
             </div>
             {showDropdownPassport && passportCountries.length > 0 && (
               <div className="absolute z-50 w-auto mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
-                {passportCountries.map((country: any) => (
+                {passportCountries.map((country: Country) => (
                   <div
                     key={country.name}
                     onClick={() => handleCurrencySelect(country)}

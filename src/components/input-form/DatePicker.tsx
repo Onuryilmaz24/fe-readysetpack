@@ -1,10 +1,12 @@
+import { DatePickerProbs, TripPostBody } from "@/types";
+
 export const DatePicker = ({
   departureDate,
   setDepartureDate,
   returnDate,
   setReturnDate,
   setInputBody,
-}: any) => {
+}: DatePickerProbs) => {
 
 
   const today = new Date().toISOString().split("T")[0];
@@ -28,7 +30,7 @@ export const DatePicker = ({
                 if(returnDate && departureDate > returnDate){
                   setReturnDate("");
                 }
-                setInputBody((prevInput: any) => {
+                setInputBody((prevInput: TripPostBody) => {
                   return { ...prevInput, start_date: newDepartureDate };
                 });
               }}
@@ -45,7 +47,7 @@ export const DatePicker = ({
               onChange={(e) => {
                 const newReturnDate = e.target.value;
                 setReturnDate(newReturnDate);
-                setInputBody((prevInput: any) => {
+                setInputBody((prevInput: TripPostBody) => {
                   return { ...prevInput, end_date: newReturnDate };
                 });
               }}
