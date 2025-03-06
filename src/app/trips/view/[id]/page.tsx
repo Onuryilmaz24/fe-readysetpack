@@ -49,6 +49,7 @@ export default function ViewTrip() {
   }, [params.id, user, checklistUpdated]);
 
   const handleChecklistButton = async () => {
+    if (!user) return; // Early return if user is null
     const response = await createChecklistForTrip(user.id, trip_id);
 
     if (response.success) {
@@ -252,7 +253,7 @@ export default function ViewTrip() {
             </div>
           </div>
         </div>
-        {checklist && (
+        {checklist && user &&(
           <div className="mt-6 mr-14 border-2 h-min rounded-lg bg-white shadow-md sticky top-24 justify-items-center ">
             <div className="p-4">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
