@@ -18,7 +18,7 @@ Ready Set Pack is a full-stack travel companion app designed to simplify travel 
 - 🔒 **User Authentication** – Secure login and authentication powered by Supabase.
   - If you do not want to sign up with your email, you can use the dummy account:
     - **Email:** readysetpack@test.com
-    - **Password:** readysetpack2025
+    - **Password:** readysetpack2025.
 
 ## 🛠 Tech Stack
 

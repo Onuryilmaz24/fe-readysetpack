@@ -245,6 +245,9 @@ export default function ViewTrip() {
                         <p className="text-sm text-gray-600 mb-2">
                           Date: {formatDate(event.date)}
                         </p>
+                        <p className="text-sm text-gray-600 mb-2">
+                        Visit Event Page For More Info {<a href={event.event_url} className="text-blue-500 font-bold italic">Here</a>}
+                        </p>
                       </div>
                     ))}
                   </div>
