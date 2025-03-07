@@ -12,10 +12,29 @@ export default function SignUp() {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const router = useRouter();
+
+  const validatePassword = (password: string) => {
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+    if (!password) return "Password is required.";
+    if (!passwordRegex.test(password)) {
+      setIsPasswordValid(false);
+      return "Password must be at least 8 characters long, include a number, and a special character.";
+    }
+    setIsPasswordValid(true);
+    return null;
+  };
 
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const error = validatePassword(password);
+    setPasswordError(error);
+    if (error) return;
+
     setLoading(true);
 
     const result = (await signUpUser(
@@ -73,15 +92,39 @@ export default function SignUp() {
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:outline-none focus:border-blue-500 text-base sm:text-lg"
               />
             </div>
-            <div>
+            <div className="relative">
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  validatePassword(e.target.value);
+                }}
                 required
-                className="w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:outline-none focus:border-blue-500 text-base sm:text-lg"
+                onFocus={() => setIsPasswordFocused(true)}
+                onBlur={() => setIsPasswordFocused(false)}
+                className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:outline-none text-base sm:text-lg ${
+                  isPasswordValid === null
+                    ? "border-gray-300"
+                    : isPasswordValid
+                    ? "border-green-500"
+                    : "border-red-500"
+                }`}
               />
+              {isPasswordFocused && !passwordError && !isPasswordValid && (
+                <div className="absolute text-sm bg-gray-100 border p-2 rounded-lg shadow-md left-0 mt-2 w-full">
+                  <p className="text-gray-600">Password must:</p>
+                  <ul className="text-gray-500">
+                    <li>Be at least 8 characters long</li>
+                    <li>Include at least one number</li>
+                    <li>Include at least one special character (!@#$%^&*)</li>
+                  </ul>
+                </div>
+              )}
+              {passwordError && isPasswordValid === false && (
+                <p className="text-red-500 text-sm mt-2">{passwordError}</p>
+              )}
             </div>
             <button
               type="submit"
